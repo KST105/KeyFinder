@@ -1,8 +1,5 @@
 import random
 
-curren_floor = 0
-curren_hall = 5
-
 counter_guarantee_box = 0
 counter_guarantee_key = 0
 
@@ -16,7 +13,8 @@ def map_generation():
 
 game_map = map_generation()
 
-def dungeon_movement(direction_movement):
+curren_floor = 0
+curren_hall = 5
 
 
 def exploring_room(direction_research_floor, direction_research_hall):
@@ -34,3 +32,10 @@ def exploring_room(direction_research_floor, direction_research_hall):
         result_investigation = "#"
 
     return result_investigation
+
+def show_map():
+    for i in range(0, 11):
+        for j in range(0, 11):
+            print(game_map[i][j], end=" ")
+        print(end="\n")
+    return ""
