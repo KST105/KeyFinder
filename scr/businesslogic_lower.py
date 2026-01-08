@@ -19,7 +19,7 @@ curren_hall = 5
 
 def exploring_room(direction_research_floor, direction_research_hall):
 
-    result_investigation = random.sample(map_objects)
+    result_investigation = random.sample(map_objects,1)
 
     if result_investigation == "trap":
         game_map[direction_research_floor][direction_research_hall] = "Ш"
