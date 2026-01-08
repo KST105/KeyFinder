@@ -5,17 +5,21 @@ counter_guarantee_key = 0
 
 probability_appearing_objects = [2.5, 3, 1, 2]
 map_objects = ["trap", "nothing", "loot box", "impasse"]
-
-def map_generation():
-    game_map = [["#" if floor == 10 or (floor == 0 and not hall == 5) or hall == 0 or hall == 10 and not floor == 0 and not hall == 6 else "?" for hall in range(11)] for floor in range(11)]
-
-    return game_map
-
-game_map = map_generation()
-
+size_dungeon = 11 #odd value
 curren_floor = 0
 curren_hall = 5
 
+def map_generation():
+    game_map = [["#" for hall in range(size_dungeon)] for floor in range(size_dungeon)]
+
+    for floor in range(1, 10):
+        for hall in range(1, 10):
+            game_map[floor][hall] = "?"
+
+    game_map[curren_floor][curren_hall] = "H"
+    return game_map
+
+game_map = map_generation()
 
 def exploring_room():
 
