@@ -3,7 +3,7 @@ import random
 counter_guarantee_box = 0
 counter_guarantee_key = 0
 
-probability_appearing_objects = [0.3, 0.35, 0.15, 0.2]
+probability_appearing_objects = [2.5, 3, 1, 2]
 map_objects = ["trap", "nothing", "loot box", "impasse"]
 
 def map_generation():
@@ -17,21 +17,20 @@ curren_floor = 0
 curren_hall = 5
 
 
-def exploring_room(direction_research_floor, direction_research_hall):
+def exploring_room():
 
-    result_investigation = random.sample(map_objects,1)
+    result_investigation = random.choices(map_objects, weights=probability_appearing_objects)[0]
 
     if result_investigation == "trap":
-        game_map[direction_research_floor][direction_research_hall] = "Ш"
+        result = "Ш"
     elif result_investigation == "nothing":
-        game_map[direction_research_floor][direction_research_hall] = "O"
+        result = "O"
     elif result_investigation == "loot box":
-        game_map[direction_research_floor][direction_research_hall] = "B"
-    else:
-        game_map[direction_research_floor][direction_research_hall] = "#"
-        result_investigation = "#"
+        result = "B"
+    elif result_investigation == "impasse":
+        result = "#"
 
-    return result_investigation
+    return result
 
 def show_map():
     for i in range(0, 11):
@@ -39,3 +38,4 @@ def show_map():
             print(game_map[i][j], end=" ")
         print(end="\n")
     return ""
+
