@@ -21,18 +21,36 @@ def dungeon_movement(direction_movement):
 def scan_halls_around(scan_direction):
     if scan_direction == "a" or scan_direction == "ф":
         bl.curren_hall -= 1
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+            print("Have you explored this hall yet")
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+            print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_hall += 1
     elif scan_direction == "d" or scan_direction == "в":
         bl.curren_hall += 1
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+            print("Have you explored this hall yet")
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+            print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_hall -= 1
     elif scan_direction == "s" or scan_direction == "ы":
         bl.curren_floor += 1
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+            print("Have you explored this hall yet")
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+            print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_floor -= 1
     elif scan_direction == "w" or scan_direction == "ц":
         bl.curren_floor -= 1
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+            print("Have you explored this hall yet")
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+            print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_floor += 1
+    if bl.game_map[1][5] == "#" or bl.game_map[1][5] == "Ш":
+        bl.game_map[1][5] = "O"
     return
