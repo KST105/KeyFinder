@@ -3,7 +3,7 @@ import random
 counter_guarantee_box = 0
 counter_guarantee_key = 0
 
-probability_appearing_objects = [2.5, 3, 1, 2]
+probability_appearing_objects = [3, 3.5, 1.5, 2]
 map_objects = ["trap", "nothing", "loot box", "impasse"]
 size_dungeon = 11 #odd value
 curren_floor = 0
@@ -33,6 +33,7 @@ def exploring_room():
         result = "B"
     elif result_investigation == "impasse":
         result = "#"
+
 
     return result
 
