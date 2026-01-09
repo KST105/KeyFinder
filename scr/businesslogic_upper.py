@@ -36,6 +36,11 @@ def scan_halls_around(scan_direction):
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_hall -= 1
     elif scan_direction == "s" or scan_direction == "ы":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == bl.game_map[0][5]:
+            bl.curren_floor += 1
+            bl.game_map[bl.curren_floor][bl.curren_hall] = "O"
+            bl.curren_floor -= 1
+            return
         bl.curren_floor += 1
         if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
             print("Have you explored this hall yet")
@@ -51,6 +56,4 @@ def scan_halls_around(scan_direction):
             print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_floor += 1
-    if bl.game_map[1][5] == "#" or bl.game_map[1][5] == "Ш":
-        bl.game_map[1][5] = "O"
     return
