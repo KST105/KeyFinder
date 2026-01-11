@@ -53,6 +53,18 @@ def hit(who_hit, who_got_hit):
     pass
 
 def use_health_potion():
+
+     if inv.health_potion <= 0:
+         return print("The healing potions are over")
+
+    inv.health_potion -= 1
     inv.hp += 3
+
     if inv.hp > 9:
         inv.hp = 9
+    return ""
+
+def use_power_potion():
+    inv.damage += 1
+    if inv.hp > 10:
+        inv.hp = 10
