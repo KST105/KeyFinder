@@ -52,7 +52,7 @@ def show_map():
 def hit(who_hit, who_got_hit):
     pass
 
-def health_potion():
+def use_health_potion():
     inv.hp += 3
     if inv.hp > 9:
         inv.hp = 9
