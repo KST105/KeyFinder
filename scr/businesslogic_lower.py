@@ -10,6 +10,7 @@ curren_floor = 0
 curren_hall = 5
 
 def map_generation():
+
     game_map = [["#" for hall in range(size_dungeon)] for floor in range(size_dungeon)]
 
     for floor in range(1, size_dungeon-1):
@@ -17,6 +18,7 @@ def map_generation():
             game_map[floor][hall] = "?"
 
     game_map[curren_floor][curren_hall] = "H"
+
     return game_map
 
 game_map = map_generation()
@@ -34,13 +36,15 @@ def exploring_room():
     elif result_investigation == "impasse":
         result = "#"
 
-
     return result
 
 def show_map():
+
     for i in range(0, size_dungeon):
         for j in range(0, size_dungeon):
             print(game_map[i][j], end=" ")
         print(end="\n")
+
     return ""
+
 
