@@ -78,3 +78,6 @@ def scan_halls_around(scan_direction):
         if counter_scan < 0:
             counter_scan = 0
     return
+
+    def battle_process():
+        pass
