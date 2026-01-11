@@ -47,4 +47,5 @@ def show_map():
 
     return ""
 
-
+def hit(who_hit, who_got_hit):
+    pass
