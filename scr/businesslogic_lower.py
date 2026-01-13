@@ -53,15 +53,12 @@ def enemy_hp_generator():
     enemy_hp = random.randint(2, 6)
     return enemy_hp
 
-def enemy_hp_generator():
+def enemy_damage_generator():
     enemy_damage = random.randint(2, 3)
     return enemy_damage
 
-def hit():
-    if who_hit == "enemy":
-        inv.hp -= enemy_damage
-    else:
-        enemy_hp -= inv.damage
+def hit(attack_damage, defenders_hp ):
+        defenders_hp -= attack_damage
 
 def use_health_potion():
     inv.health_potion -= 1
