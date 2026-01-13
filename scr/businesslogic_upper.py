@@ -1,6 +1,15 @@
-from collections import Counter
-from itertools import count
-from . import businesslogic_lower as bl
+from scr import businesslogic_lower as bl
+from scr import inventory as inv
+
+"""
+def battle_process():
+    enemy_hp = bl.enemy_hp_generator()
+    enemy_damage = bl.enemy_damage_generator()
+    enemy_type = bl.generation_enemy_type()
+
+    while inv.hp <= 0 or enemy_hp <= 0:
+"""
+
 
 
 def dungeon_movement(direction_movement):
@@ -25,9 +34,9 @@ def scan_halls_around(scan_direction):
     counter_scan = 0
     if scan_direction == "a" or scan_direction == "ф":
         bl.curren_hall -= 1
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?" and bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
             print("Have you explored this hall yet")
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
             print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_hall += 1
@@ -36,9 +45,9 @@ def scan_halls_around(scan_direction):
             bl.battle_process()
     elif scan_direction == "d" or scan_direction == "в":
         bl.curren_hall += 1
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?" and bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
             print("Have you explored this hall yet")
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
             print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_hall -= 1
@@ -48,14 +57,18 @@ def scan_halls_around(scan_direction):
     elif scan_direction == "s" or scan_direction == "ы":
         if bl.game_map[bl.curren_floor][bl.curren_hall] == bl.game_map[0][5]:
             bl.curren_floor += 1
+            if bl.game_map[bl.curren_floor][bl.curren_hall] != "?" and bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+                print("Have you explored this hall yet")
+            if bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
+                print("Have you visited this hall yet")
             bl.game_map[bl.curren_floor][bl.curren_hall] = "O"
             bl.curren_floor -= 1
             counter_scan += 1
             return
         bl.curren_floor += 1
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?" and bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
             print("Have you explored this hall yet")
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
             print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_floor -= 1
@@ -64,20 +77,17 @@ def scan_halls_around(scan_direction):
             bl.battle_process()
     elif scan_direction == "w" or scan_direction == "ц":
         bl.curren_floor -= 1
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] != "?" and bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
             print("Have you explored this hall yet")
-        if bl.game_map[bl.curren_floor][bl.curren_hall] != "X":
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
             print("Have you visited this hall yet")
         bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
         bl.curren_floor += 1
         counter_scan += 1
         if counter_scan == 5:
-            bl.battle_process()
+            battle_process()
     else:
         counter_scan -= 0.5
         if counter_scan < 0:
             counter_scan = 0
     return
-
-    def battle_process():
-        pass
