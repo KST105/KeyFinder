@@ -1,5 +1,5 @@
 import random
-from . import inventory as inv
+from scr import inventory as inv
 
 
 counter_guarantee_box = 0
@@ -49,22 +49,36 @@ def show_map():
 
     return ""
 
-def hit(who_hit, who_got_hit):
-    pass
+def enemy_hp_generator():
+    enemy_hp = random.randint(2, 6)
+    return enemy_hp
+
+def enemy_hp_generator():
+    enemy_damage = random.randint(2, 3)
+    return enemy_damage
+
+def hit():
+    if who_hit == "enemy":
+        inv.hp -= enemy_damage
+    else:
+        enemy_hp -= inv.damage
 
 def use_health_potion():
-
-     if inv.health_potion <= 0:
-         return print("The healing potions are over")
-
     inv.health_potion -= 1
     inv.hp += 3
 
     if inv.hp > 9:
         inv.hp = 9
-    return ""
+
+    return
+
+
+
 
 def use_power_potion():
+
     inv.damage += 1
-    if inv.hp > 10:
-        inv.hp = 10
+    if inv.damage > 10:
+        inv.damage = 10
+
+    return
