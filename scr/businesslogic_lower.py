@@ -71,11 +71,11 @@ def show_map():
     return ""
 
 def enemy_hp_generator():
-    enemy_hp = random.randint(2, 6)
+    enemy_hp = random.randint(30, 70)
     return enemy_hp
 
 def enemy_damage_generator():
-    enemy_damage = random.randint(1, 3)
+    enemy_damage = random.randint(10, 30)
     return enemy_damage
 
 def hit(attack_damage, defenders_hp ):
@@ -83,10 +83,10 @@ def hit(attack_damage, defenders_hp ):
 
 def use_health_potion():
     inv.health_potion -= 1
-    inv.hp += 3
+    inv.hp += 25
 
-    if inv.hp > 10:
-        inv.hp = 10
+    if inv.hp > 100:
+        inv.hp = 100
 
     return""
 
@@ -96,8 +96,8 @@ def generation_enemy_type():
 
 def use_power_potion():
 
-    inv.damage += 1
-    if inv.damage > 10:
-        inv.damage = 10
+    inv.damage += 5
+    if inv.damage > 50:
+        inv.damage = 100
 
     return""
