@@ -7,9 +7,30 @@ counter_guarantee_key = 0
 
 probability_appearing_objects = [3, 3.5, 1.5, 2]
 map_objects = ["trap", "nothing", "loot box", "impasse"]
+
 size_dungeon = 11 #odd value
 curren_floor = 0
 curren_hall = 5
+
+counter_scan = 0
+
+probability_enemy_type = ["Dark Elf", "Goblin Marauder", "Cursed Knight"]
+probability_attack = [6.5, 3.5]
+dark_elf_attack = ["range", "magical"]
+cursed_knight_attack = ["magical", "melee"]
+goblin_marauder_attack = ["melee ", "range"]
+
+def enemy_attack(type_enemy):
+    if type_enemy == "Dark Elf":
+        dark_elf_attack = ["range", "magical"]
+        return dark_elf_attack
+    elif type_enemy == "Goblin Marauder":
+        goblin_marauder_attack = ["melee ", "range"]
+        return goblin_marauder_attack
+    elif type_enemy == "Cursed Knight":
+        cursed_knight_attack = ["magical", "melee"]
+        return cursed_knight_attack
+
 
 def map_generation():
 
@@ -54,7 +75,7 @@ def enemy_hp_generator():
     return enemy_hp
 
 def enemy_damage_generator():
-    enemy_damage = random.randint(2, 3)
+    enemy_damage = random.randint(1, 3)
     return enemy_damage
 
 def hit(attack_damage, defenders_hp ):
@@ -64,13 +85,14 @@ def use_health_potion():
     inv.health_potion -= 1
     inv.hp += 3
 
-    if inv.hp > 9:
-        inv.hp = 9
+    if inv.hp > 10:
+        inv.hp = 10
 
-    return
+    return""
 
-
-
+def generation_enemy_type():
+    enemy_type = random.choice(probability_enemy_type)
+    return enemy_type
 
 def use_power_potion():
 
@@ -78,4 +100,4 @@ def use_power_potion():
     if inv.damage > 10:
         inv.damage = 10
 
-    return
+    return""
