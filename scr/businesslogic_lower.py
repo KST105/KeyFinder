@@ -15,12 +15,8 @@ curren_hall = 5
 counter_scan = 0
 
 probability_enemy_type = ["Dark Elf", "Goblin Marauder", "Cursed Knight"]
-probability_attack = [6.5, 3.5]
-dark_elf_attack = ["range", "magical"]
-cursed_knight_attack = ["magical", "melee"]
-goblin_marauder_attack = ["melee ", "range"]
 
-def enemy_attack(type_enemy):
+def enemy_attack_options(type_enemy):
     if type_enemy == "Dark Elf":
         dark_elf_attack = ["range", "magical"]
         return dark_elf_attack
@@ -31,6 +27,10 @@ def enemy_attack(type_enemy):
         cursed_knight_attack = ["magical", "melee"]
         return cursed_knight_attack
 
+def enemy_attack_generator(attack):
+    probability_attack = [2, 1]
+    result_investigation = random.choices(attack, weights=probability_attack)[0]
+    return result_investigation
 
 def map_generation():
 
