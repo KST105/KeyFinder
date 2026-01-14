@@ -15,3 +15,9 @@ def receiving_damage(dm, hp):
     massage = "You took" + str(dm) + "damage. You have " + str(hp) + " health points."
     return massage
 
+
+massage_choose_tactics = "Choose your battle tactics for the next turn.(attack / defense)"
+
+massage_select_attack = "Select attack type (melee/ranged/magic)"
+
+massage_select_defense = "Select parry type (melee/ranged/magic)"
