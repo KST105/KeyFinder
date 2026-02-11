@@ -18,13 +18,13 @@ probability_enemy_type = ["Dark Elf", "Goblin Marauder", "Cursed Knight"]
 
 def enemy_attack_options(type_enemy):
     if type_enemy == "Dark Elf":
-        dark_elf_attack = ["range", "magical"]
+        dark_elf_attack = ["range", "magic"]
         return dark_elf_attack
     elif type_enemy == "Goblin Marauder":
         goblin_marauder_attack = ["melee ", "range"]
         return goblin_marauder_attack
     elif type_enemy == "Cursed Knight":
-        cursed_knight_attack = ["magical", "melee"]
+        cursed_knight_attack = ["magic", "melee"]
         return cursed_knight_attack
 
 def enemy_attack_generator(attack):
