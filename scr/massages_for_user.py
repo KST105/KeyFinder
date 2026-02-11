@@ -24,3 +24,9 @@ massage_choose_tactics = "Choose your battle tactics for the next turn. (attack 
 massage_select_attack = "Select attack type (melee/range/magic)"
 
 massage_select_defense = "Select parry type (melee/range/magic)"
+
+massage_beginnin_battle = "The battle begins..."
+
+massage_repeat_visit = "Have you visited this hall yet"
+
+massage_repeat_research = "Have you explored this hall yet"
