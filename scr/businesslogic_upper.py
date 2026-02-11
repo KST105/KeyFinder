@@ -98,7 +98,7 @@ def scan_halls_around(scan_direction):
 
         bl.counter_scan += 1
         if bl.counter_scan == 5:
-            print("бой начинается")
+            um.print_massage(um.massage_beginnin_battle)
             battle_process()
 
 
@@ -109,10 +109,10 @@ def scan_halls_around(scan_direction):
                 bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
             elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                print("Have you visited this hall yet")
+                um.print_massage(um.massage_repeat_visit)
 
             else:
-                print("Have you explored this hall yet")
+                um.print_massage(um.massage_repeat_research)
 
             bl.curren_hall += 1
             return
@@ -124,10 +124,10 @@ def scan_halls_around(scan_direction):
                 bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
             elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                print("Have you visited this hall yet")
+                um.print_massage(um.massage_repeat_visit)
 
             else:
-                print("Have you explored this hall yet")
+                um.print_massage(um.massage_repeat_research)
 
             bl.curren_hall -= 1
             return
@@ -141,10 +141,10 @@ def scan_halls_around(scan_direction):
                     bl.game_map[bl.curren_floor][bl.curren_hall] = "0"
 
             elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                print("Have you visited this hall yet")
+                um.print_massage(um.massage_repeat_visit)
 
             else:
-                print("Have you explored this hall yet")
+                um.print_massage(um.massage_repeat_research)
 
             bl.curren_floor -= 1
             return
@@ -152,12 +152,13 @@ def scan_halls_around(scan_direction):
         elif scan_direction == "w" or scan_direction == "ц":
 
             bl.curren_floor -= 1
+
             if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
                 bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
             elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                print("Have you visited this hall yet")
+                um.print_massage(um.massage_repeat_visit)
             else:
-                print("Have you explored this hall yet")
+                um.print_massage(um.massage_repeat_research)
 
             bl.curren_floor -= 1
             return
