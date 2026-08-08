@@ -1,8 +1,7 @@
 from scr import businesslogic_lower as bl
 from scr import inventory as inv
 from scr import massages_for_user as um
-
-
+import random
 
 def battle_process():
 
@@ -16,21 +15,14 @@ def battle_process():
     while inv.hp > 0 and enemy_hp > 0:
 
         um.print_massage(um.massage_choose_tactics)
-        user_input_tactics = str(input(">>> ")).strip() # временное решение (будет функция пользовательского ввода)
-
-        while user_input_tactics != "attack" and user_input_tactics != "defense":
-            um.print_massage(um.massage_choose_tactics)
-            user_input_tactics = str(input(">>> ")).strip()
+        user_input_tactics = bl.user_input()
+        user_input_tactics = bl.checking_correct_input(user_input_tactics, "battle_tactical")
 
         if user_input_tactics == "attack":
 
             um.print_massage(um.massage_select_attack)
-            user_attack = str(input(">>> ")).strip() # временное решение (будет функция пользовательского ввода)
-
-            while user_attack != "melee" and user_attack != "range" and user_attack != "magic":
-                um.print_massage(um.massage_select_attack)
-                user_attack = str(input(">>> ")).strip()  # временное решение (будет функция пользовательского ввода)
-
+            user_attack = bl.user_input()
+            user_attack = bl.checking_correct_input(user_attack, "battle_action_a")
             enemy_attack = bl.enemy_attack_generator(attack)
 
             if enemy_attack == user_attack:
@@ -56,14 +48,10 @@ def battle_process():
 
         else:
             um.print_massage(um.massage_select_defense)
-            user_defense  = str(input) # временное решение (будет функция пользовательского ввода)
-
-            while user_defense != "melee" and user_defense != "range" and user_defense !="magic":
-                um.print_massage(um.massage_select_defense)
-                user_defense = str(input)  # временное решение (будет функция пользовательского ввода)
-
-
+            user_defense  = bl.user_input()
+            user_defense = bl.checking_correct_input(user_defense, "battle_action_b")
             enemy_attack = bl.enemy_attack_generator(attack)
+
             if enemy_attack == user_defense:
                 enemy_hp -= inv.damage * 0.5
                 um.print_massage(um.taking_damage_opponent(inv.damage * 0.5, enemy_hp, enemy_type))
@@ -76,95 +64,193 @@ def battle_process():
     return
 
 def dungeon_movement(direction_movement):
+
     if direction_movement == "s" or direction_movement == "ы":
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_floor += 1
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+            bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "Ш":
+            inv.hp -= bl.trap_damage
+            um.print_massage(um.receiving_damage(bl.trap_damage, inv.hp))
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "O":
+            um.print_massage(um.massage_empty_hall)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "B":
+            um.print_massage(um.massage_chest_found)
+            bl.reward_from_chest(bl.counter_guarantee_key)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "#":
+
+            if bl.curren_floor == 1 and bl.curren_hall == 5:
+                bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
+                um.print_massage(um.massage_empty_hall)
+                return
+
+            bl.curren_floor -= 1
+            um.print_massage(um.massage_dead_end)
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
+
     elif direction_movement == "w" or direction_movement == "ц":
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_floor -= 1
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+            bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "Ш":
+            inv.hp -= bl.trap_damage
+            um.print_massage(um.receiving_damage(bl.trap_damage, inv.hp))
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "O":
+            um.print_massage(um.massage_empty_hall)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "B":
+            um.print_massage(um.massage_chest_found)
+            bl.reward_from_chest(bl.counter_guarantee_key)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "#":
+
+            bl.curren_floor += 1
+            um.print_massage(um.massage_dead_end)
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
+
     elif direction_movement == "a" or direction_movement == "ф":
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_hall -= 1
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+            bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "Ш":
+            inv.hp -= bl.trap_damage
+            um.print_massage(um.receiving_damage(bl.trap_damage, inv.hp))
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "O":
+            um.print_massage(um.massage_empty_hall)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "B":
+            um.print_massage(um.massage_chest_found)
+            bl.reward_from_chest(bl.counter_guarantee_key)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "#":
+
+            bl.curren_hall += 1
+            um.print_massage(um.massage_dead_end)
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
+
     elif direction_movement == "d" or direction_movement == "в":
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_hall += 1
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+            bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
+
+        if bl.game_map[bl.curren_floor][bl.curren_hall] == "Ш":
+            inv.hp -= bl.trap_damage
+            um.print_massage(um.receiving_damage(bl.trap_damage, inv.hp))
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "O":
+            um.print_massage(um.massage_empty_hall)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "B":
+            um.print_massage(um.massage_chest_found)
+            bl.reward_from_chest(bl.counter_guarantee_key)
+
+        elif bl.game_map[bl.curren_floor][bl.curren_hall] == "#":
+
+            bl.curren_hall -= 1
+            um.print_massage(um.massage_dead_end)
+
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
 
+    elif direction_movement == "q" or direction_movement == "й":
+
+        um.print_massage(um.message_scan_direction)
+        scan_direction = bl.user_input()
+        scan_direction = bl.checking_correct_input(scan_direction, "scan")
+        scan_halls_around(scan_direction)
+
+        return
+
+    bl.counter_scan -= 0.5
+    if bl.counter_scan < 0:
+        bl.counter_scan = 0
+
 def scan_halls_around(scan_direction):
-    if scan_direction == "w" or "a" or "s" or "d" or "ц" or "ф" or "ы" or "в":
 
-        bl.counter_scan += 1
-        if bl.counter_scan == 5:
-            um.print_massage(um.massage_beginnin_battle)
-            battle_process()
+    while scan_direction in ("w", "a", "s", "d", "ц", "ф", "ы", "в", "x", "ч"):
 
+        if scan_direction in ("w", "a", "s", "d", "ц", "ф", "ы", "в"):
+            bl.counter_scan += 1
 
-        if scan_direction == "a" or scan_direction == "ф":
-            bl.curren_hall -= 1
+            if bl.counter_scan == bl.max_counter_scan:
+                um.print_massage(um.massage_beginnin_battle)
+                battle_process()
 
-            if bl.game_map[bl.curren_floor][bl.curren_hall] == "?" :
-                bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
+            if scan_direction in ("a", "ф"):
+                bl.curren_hall -= 1
 
-            elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                um.print_massage(um.massage_repeat_visit)
+                if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+                    bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
-            else:
-                um.print_massage(um.massage_repeat_research)
+                else:
+                    um.print_massage(um.massage_repeat_research)
 
-            bl.curren_hall += 1
-            return
+                bl.curren_hall += 1
+                return
 
-        elif scan_direction == "d" or scan_direction == "в":
-            bl.curren_hall += 1
+            elif scan_direction in ("d", "в"):
+                bl.curren_hall += 1
 
-            if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
-                bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
+                if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+                    bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
-            elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                um.print_massage(um.massage_repeat_visit)
+                else:
+                    um.print_massage(um.massage_repeat_research)
 
-            else:
-                um.print_massage(um.massage_repeat_research)
+                bl.curren_hall -= 1
+                return
 
-            bl.curren_hall -= 1
-            return
+            elif scan_direction in ("s", "ы"):
+                bl.curren_floor += 1
 
-        elif scan_direction == "s" or scan_direction == "ы":
-            bl.curren_floor += 1
+                if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+                    bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
-            if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
-                bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
-                if bl.game_map[bl.curren_floor][bl.curren_hall] == "#" and (bl.curren_floor - 1 == 0 and bl.curren_hall == 5):
-                    bl.game_map[bl.curren_floor][bl.curren_hall] = "0"
+                    if bl.game_map[bl.curren_floor][bl.curren_hall] == "#" and (
+                            bl.curren_floor - 1 == 0 and bl.curren_hall == 5):
+                        bl.game_map[bl.curren_floor][bl.curren_hall] = "0"
 
-            elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                um.print_massage(um.massage_repeat_visit)
+                elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
+                    um.print_massage(um.massage_repeat_visit)
 
-            else:
-                um.print_massage(um.massage_repeat_research)
+                else:
+                    um.print_massage(um.massage_repeat_research)
 
-            bl.curren_floor -= 1
-            return
+                bl.curren_floor -= 1
+                return
 
-        elif scan_direction == "w" or scan_direction == "ц":
+            elif scan_direction in ("w", "ц"):
+                bl.curren_floor -= 1
 
-            bl.curren_floor -= 1
+                if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
+                    bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
-            if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
-                bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
-            elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                um.print_massage(um.massage_repeat_visit)
-            else:
-                um.print_massage(um.massage_repeat_research)
+                else:
+                    um.print_massage(um.massage_repeat_research)
 
-            bl.curren_floor -= 1
-            return
+                bl.curren_floor += 1
+                return
 
-    else:
-        bl.counter_scan -= 0.5
-        if bl.counter_scan < 0:
-            bl.counter_scan = 0
     return
