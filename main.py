@@ -1,6 +1,5 @@
 from scr.businesslogic_upper import *
 from scr.businesslogic_lower import *
-import os
 
 
 user_input = 0
