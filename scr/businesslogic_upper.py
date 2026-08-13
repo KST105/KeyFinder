@@ -65,7 +65,7 @@ def battle_process():
 
 def dungeon_movement(direction_movement):
 
-    if direction_movement == "s" or direction_movement == "ы":
+    if direction_movement == "s":
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_floor += 1
@@ -96,7 +96,7 @@ def dungeon_movement(direction_movement):
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
 
-    elif direction_movement == "w" or direction_movement == "ц":
+    elif direction_movement == "w":
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_floor -= 1
@@ -122,7 +122,7 @@ def dungeon_movement(direction_movement):
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
 
-    elif direction_movement == "a" or direction_movement == "ф":
+    elif direction_movement == "a":
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_hall -= 1
@@ -148,7 +148,7 @@ def dungeon_movement(direction_movement):
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
 
-    elif direction_movement == "d" or direction_movement == "в":
+    elif direction_movement == "d":
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "X"
         bl.curren_hall += 1
@@ -174,31 +174,22 @@ def dungeon_movement(direction_movement):
 
         bl.game_map[bl.curren_floor][bl.curren_hall] = "H"
 
-    elif direction_movement == "q" or direction_movement == "й":
-
-        um.print_massage(um.message_scan_direction)
-        scan_direction = bl.user_input()
-        scan_direction = bl.checking_correct_input(scan_direction, "scan")
-        scan_halls_around(scan_direction)
-
-        return
-
     bl.counter_scan -= 0.5
     if bl.counter_scan < 0:
         bl.counter_scan = 0
 
 def scan_halls_around(scan_direction):
 
-    while scan_direction in ("w", "a", "s", "d", "ц", "ф", "ы", "в", "x", "ч"):
+    while scan_direction in ("w", "a", "s", "d", "x"):
 
-        if scan_direction in ("w", "a", "s", "d", "ц", "ф", "ы", "в"):
+        if scan_direction in ("w", "a", "s", "d"):
             bl.counter_scan += 1
 
             if bl.counter_scan == bl.max_counter_scan:
                 um.print_massage(um.massage_beginnin_battle)
                 battle_process()
 
-            if scan_direction in ("a", "ф"):
+            if scan_direction == "a":
                 bl.curren_hall -= 1
 
                 if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
@@ -210,7 +201,7 @@ def scan_halls_around(scan_direction):
                 bl.curren_hall += 1
                 return
 
-            elif scan_direction in ("d", "в"):
+            elif scan_direction == "d":
                 bl.curren_hall += 1
 
                 if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
@@ -222,7 +213,7 @@ def scan_halls_around(scan_direction):
                 bl.curren_hall -= 1
                 return
 
-            elif scan_direction in ("s", "ы"):
+            elif scan_direction == "s":
                 bl.curren_floor += 1
 
                 if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
@@ -241,7 +232,7 @@ def scan_halls_around(scan_direction):
                 bl.curren_floor -= 1
                 return
 
-            elif scan_direction in ("w", "ц"):
+            elif scan_direction == "w":
                 bl.curren_floor -= 1
 
                 if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
