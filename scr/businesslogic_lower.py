@@ -7,9 +7,11 @@ counter_guarantee_chest = 0
 value_guaranteed_chest = 4
 counter_guarantee_key = 0
 value_guarantee_key = 4
-size_dungeon = 11
-curren_floor = 0
-curren_hall = 5
+size_dungeon = 13
+count_floor = size_dungeon
+count_hall = size_dungeon + 2
+curren_floor = 12
+curren_hall = count_hall  // 2
 counter_scan = 0
 max_counter_scan = 6
 trap_damage = 15
@@ -71,10 +73,10 @@ def enemy_attack_generator(attack):
     return result_investigation
 
 def map_generation():
-    game_map = [["#" for hall in range(size_dungeon)] for floor in range(size_dungeon)]
+    game_map = [["#" for hall in range(count_hall)] for floor in range(count_floor)]
 
-    for floor in range(1, size_dungeon-1):
-        for hall in range(1, size_dungeon-1):
+    for floor in range(1, count_floor-1):
+        for hall in range(1, count_hall-1):
             game_map[floor][hall] = "?"
 
     game_map[curren_floor][curren_hall] = "H"
@@ -115,13 +117,10 @@ def exploring_room():
         result = "#"
         return result
 
-
-
-
 def show_map():
 
-    for i in range(0, size_dungeon):
-        for j in range(0, size_dungeon):
+    for i in range(0, count_floor):
+        for j in range(0, count_hall):
             print(game_map[i][j], end=" ")
         print(end="\n")
 
