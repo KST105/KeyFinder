@@ -219,13 +219,6 @@ def scan_halls_around(scan_direction):
                 if bl.game_map[bl.curren_floor][bl.curren_hall] == "?":
                     bl.game_map[bl.curren_floor][bl.curren_hall] = bl.exploring_room()
 
-                    if bl.game_map[bl.curren_floor][bl.curren_hall] == "#" and (
-                            bl.curren_floor - 1 == 0 and bl.curren_hall == 5):
-                        bl.game_map[bl.curren_floor][bl.curren_hall] = "0"
-
-                elif bl.game_map[bl.curren_floor][bl.curren_hall] == "X":
-                    um.print_massage(um.massage_repeat_visit)
-
                 else:
                     um.print_massage(um.massage_repeat_research)
 
