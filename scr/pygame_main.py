@@ -85,7 +85,7 @@ def draw_message():
 
     pygame.draw.rect(screen,(35, 35, 35), message_rect)
 
-    text_surface = font.render("You found a chest!",True,(255, 255, 255))
+    text_surface = font.render("Заглушка",True,(255, 255, 255))
 
     screen.blit(text_surface,(message_rect.x + 10, message_rect.y + 10))
 
@@ -93,14 +93,14 @@ def draw_character_rect():
 
     pygame.draw.rect(screen,(35, 35, 35), character_rect)
 
-    text_surface = font.render("You found a chest!",True,(255, 255, 255))
+    text_surface = font.render("Заглушка",True,(255, 255, 255))
 
     screen.blit(text_surface,(character_rect.x + 10, character_rect.y + 10))
 
 def draw_title_rect():
     pygame.draw.rect(screen,(35, 35, 35), title_rect)
 
-    text_surface = font.render("You found a chest!",True,(255, 255, 255))
+    text_surface = font.render("Заглушка",True,(255, 255, 255))
 
     screen.blit(text_surface,(title_rect.x + 10, title_rect.y + 10))
 
