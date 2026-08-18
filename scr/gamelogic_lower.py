@@ -1,7 +1,8 @@
 import random
+from scr import gamelogic_lower as gl_l
 from scr import inventory as inv
-from scr import massages_for_user as um
-from scr import businesslogic_lower as bl
+from scr import massages_player as mp
+
 
 counter_guarantee_chest = 0
 value_guaranteed_chest = 4
@@ -12,45 +13,69 @@ count_floor = size_dungeon
 count_hall = size_dungeon + 2
 curren_floor = 12
 curren_hall = count_hall  // 2
-counter_scan = 0
-max_counter_scan = 6
 trap_damage = 15
 triumphant_number_keys = 5
+max_health_potion = 6
+max_power_potion = 5
 
-probability_appearing_objects = [3, 3.5, 1.5, 2]
-probability_appearing_rewards = [1, 3]
+probability_appearing_objects = [30, 30, 15,25]
+probability_appearing_rewards = [15, 85]
 
 map_objects = ["trap", "nothing", "chest", "impasse"]
 probability_reward_type = ["key", "potion"]
 probability_enemy_type = ["Dark Elf", "Goblin Marauder", "Cursed Knight"]
 
 def reward_from_chest(counter_guarantee_key):
+
     counter_guarantee_key += 1
+    gl_l.counter_guarantee_key = counter_guarantee_key
 
     if counter_guarantee_key == value_guarantee_key:
         inv.key += 1
-        bl.counter_guarantee_key = 0
+        gl_l.counter_guarantee_key = 0
 
-        return um.print_massage(um.found_key)
+        return mp.print_massage(mp.found_key)
 
     reward_chest = random.choices(probability_reward_type, weights=probability_appearing_rewards)[0]
 
     if reward_chest == "key":
         inv.key += 1
-        bl.counter_guarantee_key = 0
+        gl_l.counter_guarantee_key = 0
 
-        um.print_massage(f"You have found the key. There are still {5 - int(inv.key)} left to find.")
+        mp.print_massage(f"You have found the key. There are still {5 - int(inv.key)} left to find.")
+
+    if inv.health_potion == max_health_potion and  inv.power_potion >= max_power_potion:
+
+        inv.key += 1
+
+        gl_l.counter_guarantee_key = 0
+
+        return mp.print_massage (f"Your potion supplies are full. You found a key instead!")
+
+    if inv.health_potion == max_health_potion:
+        inv.power_potion += 1
+
+        return mp.print_massage(f"You have found a power potion. Current count: {inv.power_potion}.")
+
+    elif inv.power_potion == max_power_potion:
+
+        inv.health_potion += 1
+
+        return mp.print_massage(f"You have found a healing potion. Current count: {inv.health_potion}.")
 
     else:
+
         number = random.randint(0, 1)
 
         if number == 0:
+
             inv.health_potion += 1
-            um.print_massage(f"You have found a healing potion. current count: {inv.health_potion}.")
+            return mp.print_massage(f"You have found a healing potion. Current count: {inv.health_potion}.")
 
         else:
+
             inv.power_potion += 1
-            (um.print_massage(f"You have found a power potion. current count: {inv.power_potion}."))
+            return mp.print_massage(f"You have found a power potion. Current count: {inv.power_potion}.")
 
 def enemy_attack_options(type_enemy):
 
@@ -88,11 +113,11 @@ game_map = map_generation()
 def verification_guaranteed_chest(result):
 
     if result != "chest":
-        bl.counter_guarantee_chest += 1
+        gl_l.counter_guarantee_chest += 1
 
-        if bl.counter_guarantee_chest == value_guaranteed_chest:
+        if gl_l.counter_guarantee_chest == value_guaranteed_chest:
             result = "chest"
-            bl.counter_guarantee_chest = 0
+            gl_l.counter_guarantee_chest = 0
             return result
 
         return result
@@ -142,23 +167,31 @@ def hit(attack_damage, defenders_hp ):
 
 def use_health_potion():
 
+    if inv.health_potion == 0:
+        return mp.is_no_potion
+
     inv.health_potion -= 1
-    inv.hp += 25
+    inv.hp += 15
 
     if inv.hp > 100:
         inv.hp = 100
 
+    return mp.drink_healing_potion
+
+def use_power_potion():
+
+    if inv.power_potion == 0:
+        return mp.is_no_potion
+
+    inv.power_potion -= 1
+    inv.damage += 5
+
+    return mp.drink_power_potion
 
 def generation_enemy_type():
 
     enemy_type = random.choice(probability_enemy_type)
     return enemy_type
-
-def use_power_potion():
-
-    inv.damage += 5
-    if inv.damage > 50:
-        inv.damage = 100
 
 def user_input():
 
@@ -172,31 +205,31 @@ def checking_correct_input(inp, type):
     if type == "move":
 
         while inp not in ("w", "a", "s", "d", "ц", "ф", "ы", "в", "q", "й"):
-            um.print_massage(um.message_incorrect_direction_movement)
+            mp.print_massage(mp.message_incorrect_direction_movement)
             inp = input(">>>").strip()
 
     elif type == "scan":
 
         while inp not in ("w", "a", "s", "d", "ц", "ф", "ы", "в"):
-            um.print_massage(um.message_incorrect_direction_scan)
+            mp.print_massage(mp.message_incorrect_direction_scan)
             inp = input(">>>").strip()
 
     elif type == "battle_tactical":
 
         while inp not in ("attack", "defense"):
-            um.print_massage(um.massage_incorrect_choose_tactics)
+            mp.print_massage(mp.massage_incorrect_choose_tactics)
             inp = input(">>>").strip()
 
     elif type == "battle_action_a":
 
         while inp not in ("melee", "range", "magic"):
-            um.print_massage(um.massage_select_incorrect_attack)
+            mp.print_massage(mp.massage_select_incorrect_attack)
             inp = input(">>>").strip()
 
     elif type == "battle_action_b":
 
         while inp not in ("melee", "range", "magic"):
-            um.print_massage(um.massage_select_incorrect_defense)
+            mp.print_massage(mp.massage_select_incorrect_defense)
             inp = input(">>>").strip()
 
     return inp
