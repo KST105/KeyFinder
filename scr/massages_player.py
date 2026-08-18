@@ -1,5 +1,5 @@
 from scr import inventory as inv
-from scr import businesslogic_lower as bl
+
 
 def print_massage(massage):
     return print(massage)
@@ -46,7 +46,7 @@ number_power_potions = f"You have found a power potion. current count: {int(inv.
 
 message_movement_direction = f"Select the movement direction (WASD). To scan, press (Q)."
 
-message_scan_direction = f"Select the movement scan (WASD)."
+message_scan_direction = f"Select the movement scan (WASD) or (X) for cancellation."
 
 message_incorrect_direction_movement = f"Choose the correct direction of movement (WASD) or cast the scanning spell (Q)."
 
@@ -57,3 +57,11 @@ massage_incorrect_choose_tactics = "Choose correct your battle tactics for the n
 massage_select_incorrect_attack = "Select correct attack type (melee/range/magic)"
 
 massage_select_incorrect_defense = "Select correct parry type (melee/range/magic)"
+
+text_control_key = f"WASD - Movement\n\nQ - Keyfinder sense\n\nH - HEALING POTION\n\nG - POWER POTION\n\nESC - Menu"
+
+drink_healing_potion = f"You drink a healing potion and restore 20 health points."
+
+drink_power_potion = f"You’ve drunk a strength potion and you feel like you’ll deal more damage."
+
+is_no_potion =  f"You’ve run out of this potion."
