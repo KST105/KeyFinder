@@ -64,6 +64,9 @@ def draw_dungeon():
             if cell == "#":
                 color = (45, 46, 46)
 
+            elif cell == "*":
+                color = (20, 20, 20)
+
             elif cell == "?":
                 color = (75, 75, 75)
 
@@ -83,7 +86,7 @@ def draw_dungeon():
                 color = (128, 143, 161)
 
             pygame.draw.rect(screen, color,(x, y, CELL_SIZE, CELL_SIZE))
-            pygame.draw.rect(screen,(20, 20, 20),(x, y, CELL_SIZE, CELL_SIZE),1)
+            pygame.draw.rect(screen,(0, 0, 7),(x, y, CELL_SIZE, CELL_SIZE),1)
 
 def draw_message(current_message):
 
