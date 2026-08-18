@@ -1,6 +1,6 @@
 import pygame
-from scr.businesslogic_upper import *
-from scr.businesslogic_lower import *
+from scr.gamelogic_lower import *
+from scr.massages_player import *
 
 pygame.init()
 
@@ -16,6 +16,7 @@ CELL_SIZE = min(AVAILABLE_MAP_WIDTH // count_hall, AVAILABLE_MAP_HEIGHT // count
 HEIGHT_INDENT_MAP = 100
 INDENT_HEIGHT_MASSAGE = 30
 INDENT_WIDTH_MAP = (SCREEN_WIDTH // 5 * 3 - CELL_SIZE * count_hall) // 2
+current_message = "Добро пожаловать в подземелье!"
 
 MAP_X = INDENT_WIDTH_MAP
 MAP_Y = HEIGHT_INDENT_MAP
@@ -44,6 +45,9 @@ WIDTH_TITLE = WIDTH_MAP + WIDTH_CHARACTER + (character_rect.left - map_rect.righ
 HEIGHT_TITLE = HEIGHT_INDENT_MAP - INDENT_HEIGHT_MASSAGE
 
 title_rect = pygame.Rect(INDENT_WIDTH_MAP, TITLE_Y, WIDTH_TITLE, HEIGHT_TITLE)
+
+CHARACTER_CONTROL_Y = character_rect.y + character_rect.height * 2/3
+CHARACTER_INFO_HEIGHT =  character_rect.height * 2/3
 
 font = pygame.font.Font(None, 30)
 
@@ -81,21 +85,35 @@ def draw_dungeon():
             pygame.draw.rect(screen, color,(x, y, CELL_SIZE, CELL_SIZE))
             pygame.draw.rect(screen,(20, 20, 20),(x, y, CELL_SIZE, CELL_SIZE),1)
 
-def draw_message():
+def draw_message(current_message):
 
-    pygame.draw.rect(screen,(35, 35, 35), message_rect)
+    pygame.draw.rect(screen, (35, 35, 35), message_rect)
 
-    text_surface = font.render("Заглушка",True,(255, 255, 255))
+    text_message = font.render(current_message, True, (255, 255, 255))
 
-    screen.blit(text_surface,(message_rect.x + 10, message_rect.y + 10))
+    screen.blit( text_message, (message_rect.x + 10, message_rect.y + 10))
 
 def draw_character_rect():
 
+    text_character_info = f"HP: {str(inv.hp)}\n\nWARINESS: {str(inv.counter_scan)} out of {str(inv.max_counter_scan)}\n\nDAMAGE:{str(inv.damage)}\n\n"
+
+    text_character_inventory = f"HEALTH POTION: {str(inv.health_potion)}\n\nPOWER POTION: {str(inv.power_potion)}\n\nKEY: {str(inv.key)}"
+
     pygame.draw.rect(screen,(35, 35, 35), character_rect)
 
-    text_surface = font.render("Заглушка",True,(255, 255, 255))
+    text_control = font.render(text_control_key,True,(255, 255, 255))
+    screen.blit(text_control,(character_rect.x + 30, CHARACTER_CONTROL_Y + 30))
+    pygame.draw.rect(screen, (20, 20, 20), (character_rect.x, CHARACTER_CONTROL_Y, character_rect.width, character_rect.height * 1/3 + 1), 1)
 
-    screen.blit(text_surface,(character_rect.x + 10, character_rect.y + 10))
+    text_character = font.render(text_character_info, True, (255, 255, 255))
+    screen.blit(text_character, (character_rect.x + 30, character_rect.y + 30))
+    pygame.draw.rect(screen, (20, 20, 20),(character_rect.x, character_rect.y, character_rect.width/2, CHARACTER_INFO_HEIGHT), 1)
+
+    text_character_inv = font.render(text_character_inventory, True, (255, 255, 255))
+    screen.blit(text_character_inv, (character_rect.x + (character_rect.width / 2) + 30, character_rect.y + 30))
+    pygame.draw.rect(screen, (20, 20, 20),(character_rect.x + (character_rect.width / 2), character_rect.y, character_rect.width / 2 + 1, CHARACTER_INFO_HEIGHT), 1)
+
+
 
 def draw_title_rect():
     pygame.draw.rect(screen,(35, 35, 35), title_rect)
@@ -104,63 +122,3 @@ def draw_title_rect():
 
     screen.blit(text_surface,(title_rect.x + 10, title_rect.y + 10))
 
-running = True
-scanning = False
-
-while running:
-
-    for event in pygame.event.get():
-
-        if event.type == pygame.QUIT:
-            running = False
-
-        elif event.type == pygame.KEYDOWN:
-
-            if event.key == pygame.K_q:
-                scanning = True
-                um.print_massage(um.message_scan_direction)
-
-            elif scanning:
-
-                if event.key == pygame.K_w:
-                    scan_halls_around("w")
-                    scanning = False
-
-                elif event.key == pygame.K_a:
-                    scan_halls_around("a")
-                    scanning = False
-
-                elif event.key == pygame.K_s:
-                    scan_halls_around("s")
-                    scanning = False
-
-                elif event.key == pygame.K_d:
-                    scan_halls_around("d")
-                    scanning = False
-
-                else:
-                    print("Неверное направление!")
-
-            else:
-
-                if event.key == pygame.K_w:
-                    dungeon_movement("w")
-
-                elif event.key == pygame.K_a:
-                    dungeon_movement("a")
-
-                elif event.key == pygame.K_s:
-                    dungeon_movement("s")
-
-                elif event.key == pygame.K_d:
-                    dungeon_movement("d")
-
-    draw_dungeon()
-    draw_message()
-    draw_character_rect()
-    draw_title_rect()
-
-
-    pygame.display.flip()
-
-pygame.quit()
