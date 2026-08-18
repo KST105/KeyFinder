@@ -3,6 +3,7 @@ from scr.gamelogic_ui import *
 
 running = True
 scanning = False
+destruction = False
 
 while running:
 
@@ -37,6 +38,31 @@ while running:
 
                 elif event.key == pygame.K_x:
                     scanning = False
+
+            elif event.key == pygame.K_r:
+                destruction = True
+                current_message = message_destruction_direction
+
+            elif destruction:
+
+                if event.key == pygame.K_w:
+                    current_message = destroy_object("w")
+                    destruction = False
+
+                elif event.key == pygame.K_a:
+                    current_message = destroy_object("a")
+                    destruction = False
+
+                elif event.key == pygame.K_s:
+                    current_message = destroy_object("s")
+                    destruction = False
+
+                elif event.key == pygame.K_d:
+                    current_message = destroy_object("d")
+                    destruction = False
+
+                elif event.key == pygame.K_x:
+                    destruction = False
 
             else:
 
