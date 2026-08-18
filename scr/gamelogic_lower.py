@@ -24,6 +24,21 @@ probability_appearing_rewards = [15, 85]
 map_objects = ["trap", "nothing", "chest", "impasse"]
 probability_reward_type = ["key", "potion"]
 probability_enemy_type = ["Dark Elf", "Goblin Marauder", "Cursed Knight"]
+map_objects_in_destruction = ["nothing", "chest"]
+probability_appearing_objects_in_destruction = [70, 30]
+
+def exploring_room_in_destruction():
+
+    result_investigation = random.choices(map_objects_in_destruction, weights=probability_appearing_objects_in_destruction)[0]
+
+    if result_investigation == "nothing":
+        result = "O"
+        return result
+
+    elif result_investigation == "chest":
+        result = "B"
+        return result
+
 
 def reward_from_chest(counter_guarantee_key):
 
@@ -98,7 +113,7 @@ def enemy_attack_generator(attack):
     return result_investigation
 
 def map_generation():
-    game_map = [["#" for hall in range(count_hall)] for floor in range(count_floor)]
+    game_map = [["*" for hall in range(count_hall)] for floor in range(count_floor)]
 
     for floor in range(1, count_floor-1):
         for hall in range(1, count_hall-1):
@@ -198,7 +213,6 @@ def user_input():
     inp = input(">>>").strip()
 
     return inp
-
 
 def checking_correct_input(inp, type):
 
