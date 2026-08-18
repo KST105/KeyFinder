@@ -92,7 +92,7 @@ def dungeon_movement(direction_movement):
             gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = "H"
             return mp.massage_chest_found
 
-        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] == "#":
+        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","*"):
 
             gl_l.curren_floor -= 1
             gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = "H"
@@ -126,7 +126,7 @@ def dungeon_movement(direction_movement):
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
             return mp.massage_chest_found
 
-        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] == "#":
+        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall]in ("#","*"):
 
             gl_l.curren_floor += 1
             gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = "H"
@@ -160,7 +160,7 @@ def dungeon_movement(direction_movement):
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
             return mp.massage_chest_found
 
-        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] == "#":
+        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","*"):
 
             gl_l.curren_hall += 1
             gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = "H"
@@ -194,7 +194,7 @@ def dungeon_movement(direction_movement):
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
             return mp.massage_chest_found
 
-        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] == "#":
+        elif gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","*"):
 
             gl_l.curren_hall -= 1
             gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = "H"
@@ -205,7 +205,7 @@ def dungeon_movement(direction_movement):
 
 def scan_halls_around(scan_direction):
 
-    while scan_direction in ("w", "a", "s", "d", "x"):
+    while scan_direction in ("w", "a", "s", "d"):
 
         if scan_direction in ("w", "a", "s", "d"):
             inv.counter_scan += 1
@@ -267,3 +267,55 @@ def scan_halls_around(scan_direction):
                 return
 
     return
+
+def destroy_object(direction):
+
+    while direction in ("w", "a", "s", "d"):
+
+        if direction == "a":
+            gl_l.curren_hall -= 1
+
+            if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
+                gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
+                gl_l.curren_hall += 1
+                return mp.massage_beginnin_battle, battle_process()
+
+            else:
+                gl_l.curren_hall += 1
+                return mp.message_invalid_destruction_object
+
+        elif direction == "d":
+            gl_l.curren_hall += 1
+
+            if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
+                gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
+                gl_l.curren_hall -= 1
+                return mp.massage_beginnin_battle, battle_process()
+
+            else:
+                gl_l.curren_hall -= 1
+                return mp.message_invalid_destruction_object
+
+        elif direction == "s":
+            gl_l.curren_floor += 1
+
+            if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
+                gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
+                gl_l.curren_floor -= 1
+                return mp.massage_beginnin_battle, battle_process()
+
+            else:
+                gl_l.curren_floor -= 1
+                return mp.message_invalid_destruction_object
+
+        elif direction == "w":
+            gl_l.curren_floor -= 1
+
+            if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
+                gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
+                gl_l.curren_floor += 1
+                return mp.massage_beginnin_battle, battle_process()
+
+            else:
+                gl_l.curren_floor += 1
+                return mp.message_invalid_destruction_object
