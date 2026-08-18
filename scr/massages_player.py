@@ -58,10 +58,14 @@ massage_select_incorrect_attack = "Select correct attack type (melee/range/magic
 
 massage_select_incorrect_defense = "Select correct parry type (melee/range/magic)"
 
-text_control_key = f"WASD - Movement\n\nQ - Keyfinder sense\n\nH - HEALING POTION\n\nG - POWER POTION\n\nESC - Menu"
+text_control_key = f"WASD - Movement\n\nQ - Keyfinder sense\n\nH - HEALING POTION\n\nG - POWER POTION\n\nR - DESTROY AN OBJECT\n\nESC - Menu"
 
 drink_healing_potion = f"You drink a healing potion and restore 20 health points."
 
 drink_power_potion = f"You’ve drunk a strength potion and you feel like you’ll deal more damage."
 
 is_no_potion =  f"You’ve run out of this potion."
+
+message_invalid_destruction_object = f"This object cannot be destroyed. Сhoose a trap or a wall."
+
+message_destruction_direction = f"Choose the direction of destruction (WASD) or (X) for cancellation."
