@@ -5,6 +5,7 @@ running = True
 scanning = False
 destruction = False
 combat_action = False
+battle_state = "tactic"
 
 while running:
 
@@ -16,7 +17,32 @@ while running:
         elif event.type == pygame.KEYDOWN:
 
             if combat_action:
-                current_message = "Бой начинается"
+
+                current_message = massage_beginnin_battle
+
+                if battle_state == "tactic":
+
+                    if event.key == pygame.K_1:
+                        battle_tactic = "attack"
+                        battle_state = "action"
+
+                    elif event.key == pygame.K_2:
+                        battle_tactic = "defence"
+                        battle_state = "action"
+
+                elif battle_state == "action":
+
+                    if event.key == pygame.K_1:
+                        battle_action = "melee"
+
+                    elif event.key == pygame.K_2:
+                        battle_action = "range"
+
+                    elif event.key == pygame.K_3:
+                        battle_action = "magic"
+
+                    battle_round(enemy, battle_tactic, battle_action)
+                    battle_state = "tactic"
 
             elif event.key == pygame.K_q:
                 scanning = True
@@ -29,7 +55,10 @@ while running:
                     result = scan_halls_around("w")
 
                     if result is True:
+
+                        current_message = enemy_generator()
                         combat_action = True
+                        battle_state = "tactic"
 
                     else:
                         current_message = result
@@ -41,7 +70,10 @@ while running:
                     result = scan_halls_around("a")
 
                     if result is True:
+
+                        current_message = enemy_generator()
                         combat_action = True
+                        battle_state = "tactic"
 
                     else:
                         current_message = result
@@ -53,7 +85,10 @@ while running:
                     result = scan_halls_around("s")
 
                     if result is True:
+
+                        current_message = enemy_generator()
                         combat_action = True
+                        battle_state = "tactic"
 
                     else:
                         current_message = result
@@ -65,7 +100,10 @@ while running:
                     result = scan_halls_around("d")
 
                     if result is True:
+
+                        current_message = enemy_generator()
                         combat_action = True
+                        battle_state = "tactic"
 
                     else:
                         current_message = result
