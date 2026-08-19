@@ -95,15 +95,15 @@ def reward_from_chest(counter_guarantee_key):
 def enemy_attack_options(type_enemy):
 
     if type_enemy == "Dark Elf":
-        dark_elf_attack = ["range", "magic"]
+        dark_elf_attack = ["magic", "range"]
         return dark_elf_attack
 
     elif type_enemy == "Goblin Marauder":
-        goblin_marauder_attack = ["melee ", "range"]
+        goblin_marauder_attack = ["range", "melee"]
         return goblin_marauder_attack
 
     elif type_enemy == "Cursed Knight":
-        cursed_knight_attack = ["magic", "melee"]
+        cursed_knight_attack = ["melee", "magic"]
         return cursed_knight_attack
 
 def enemy_attack_generator(attack):
@@ -247,3 +247,18 @@ def checking_correct_input(inp, type):
             inp = input(">>>").strip()
 
     return inp
+
+enemy = {}
+
+def enemy_generator():
+
+    enemy_type = generation_enemy_type()
+
+    enemy["hp"] = enemy_hp_generator()
+    enemy["damage"] = enemy_damage_generator()
+    enemy["type"] = enemy_type
+    enemy["attack"] = enemy_attack_options(enemy_type)
+
+    massage = mp.meeting_with_enemy(enemy_type)
+
+    return massage
