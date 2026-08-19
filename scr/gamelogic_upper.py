@@ -212,7 +212,7 @@ def scan_halls_around(scan_direction):
 
             if inv.counter_scan >= inv.max_counter_scan:
                 mp.print_massage(mp.massage_beginnin_battle)
-                battle_process()
+                return True
 
             if scan_direction == "a":
                 gl_l.curren_hall -= 1
