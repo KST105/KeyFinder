@@ -4,64 +4,50 @@ from scr import massages_player as mp
 from scr import gamelogic_ui as pg
 
 
-def battle_process():
+def battle_round(enemy, battle_tactic, battle_action):
 
-    enemy_hp = gl_l.enemy_hp_generator()
-    enemy_damage = gl_l.enemy_damage_generator()
-    enemy_type = gl_l.generation_enemy_type()
-    massage_enemy_type = mp.meeting_with_enemy(enemy_type)
-    attack = gl_l.enemy_attack_options(enemy_type)
-    pg.current_message = massage_enemy_type
+    if battle_tactic == "attack":
 
-    while inv.hp > 0 and enemy_hp > 0:
+        enemy_attack = gl_l.enemy_attack_generator(enemy["attack"])
 
-        mp.print_massage(mp.massage_choose_tactics)
-        user_input_tactics = gl_l.user_input()
-        user_input_tactics = gl_l.checking_correct_input(user_input_tactics, "battle_tactical")
+        if enemy_attack == battle_action:
 
-        if user_input_tactics == "attack":
+            enemy["hp"] -= inv.damage
+            inv.hp -= enemy["damage"]
 
-            mp.print_massage(mp.massage_select_attack)
-            user_attack = gl_l.user_input()
-            user_attack = gl_l.checking_correct_input(user_attack, "battle_action_a")
-            enemy_attack = gl_l.enemy_attack_generator(attack)
+            pg.current_message = mp.receiving_damage(enemy["damage"], inv.hp)
+            pg.current_message = mp.taking_damage_opponent(inv.damage, enemy["hp"], enemy["type"])
 
-            if enemy_attack == user_attack:
-                enemy_hp -= inv.damage
-                inv.hp -= enemy_damage
+        elif (enemy_attack == "melee" and battle_action == "range") or (enemy_attack == "range" and battle_action == "magic") or (enemy_attack == "magic" and battle_action == "melee"):
 
-                pg.current_message = mp.receiving_damage(enemy_damage, inv.hp)
-                pg.current_message = mp.taking_damage_opponent(inv.damage, enemy_hp, enemy_type)
+            enemy["hp"] -= inv.damage * 0.5
+            inv.hp -= enemy["damage"] * 2
 
-            elif (enemy_attack == "melee" and user_attack == "range") or (enemy_attack == "range" and user_attack == "magic") or (enemy_attack == "magic" and user_attack == "melee"):
-                enemy_hp -= inv.damage * 0.5
-                inv.hp -= enemy_damage * 2
+            pg.current_message = mp.receiving_damage(enemy["damage"] * 2, inv.hp)
+            pg.current_message = mp.taking_damage_opponent(inv.damage * 0.5, enemy["hp"], enemy["type"])
 
-                pg.current_message = mp.receiving_damage(enemy_damage * 2, inv.hp)
-                pg.current_message = mp.taking_damage_opponent(inv.damage * 0.5, enemy_hp, enemy_type)
+        elif (enemy_attack == "melee" and battle_action == "magic") or (enemy_attack == "range" and battle_action == "melee") or (enemy_attack == "magic" and battle_action == "range"):
 
-            elif (enemy_attack == "melee" and user_attack == "magic") or (enemy_attack == "range" and user_attack == "melee") or (enemy_attack == "magic" and user_attack == "range"):
-                enemy_hp -= inv.damage * 2
-                inv.hp -= enemy_damage * 0.5
+            enemy["hp"] -= inv.damage * 2
+            inv.hp -= enemy["damage"] * 0.5
 
-                pg.current_message = mp.receiving_damage(enemy_damage * 0.5, inv.hp)
-                pg.current_message = mp.taking_damage_opponent(inv.damage * 2, enemy_hp, enemy_type)
+            pg.current_message = mp.receiving_damage(enemy["damage"] * 0.5, inv.hp)
+            pg.current_message = mp.taking_damage_opponent(inv.damage * 2, enemy["hp"], enemy["type"])
+
+    elif battle_tactic == "defence":
+
+        enemy_attack = gl_l.enemy_attack_generator(enemy["attack"])
+
+        if enemy_attack == battle_action:
+            enemy["hp"]-= inv.damage * 0.5
+            pg.current_message = mp.taking_damage_opponent(inv.damage * 0.5, enemy["hp"], enemy["type"])
 
         else:
-            mp.print_massage(mp.massage_select_defense)
-            user_defense  = gl_l.user_input()
-            user_defense = gl_l.checking_correct_input(user_defense, "battle_action_b")
-            enemy_attack = gl_l.enemy_attack_generator(attack)
-
-            if enemy_attack == user_defense:
-                enemy_hp -= inv.damage * 0.5
-                pg.current_message = mp.taking_damage_opponent(inv.damage * 0.5, enemy_hp, enemy_type)
-
-            else:
-                inv.hp -= enemy_damage * 2
-                mp.receiving_damage(enemy_damage * 2, inv.hp)
+            inv.hp -= enemy["damage"] * 2
+            mp.receiving_damage(enemy["damage"] * 2, inv.hp)
                     
     gl_l.counter_scan = 0
+
     return
 
 def dungeon_movement(direction_movement):
@@ -278,7 +264,7 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.curren_hall += 1
-                return mp.massage_beginnin_battle, battle_process()
+                return
 
             else:
                 gl_l.curren_hall += 1
@@ -290,7 +276,7 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.curren_hall -= 1
-                return mp.massage_beginnin_battle, battle_process()
+                return
 
             else:
                 gl_l.curren_hall -= 1
@@ -302,7 +288,7 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.curren_floor -= 1
-                return mp.massage_beginnin_battle, battle_process()
+                return
 
             else:
                 gl_l.curren_floor -= 1
@@ -314,7 +300,7 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.curren_floor][gl_l.curren_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.curren_floor += 1
-                return mp.massage_beginnin_battle, battle_process()
+                return
 
             else:
                 gl_l.curren_floor += 1
