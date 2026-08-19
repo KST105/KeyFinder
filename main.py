@@ -4,6 +4,7 @@ from scr.gamelogic_ui import *
 running = True
 scanning = False
 destruction = False
+combat_action = False
 
 while running:
 
@@ -14,26 +15,61 @@ while running:
 
         elif event.type == pygame.KEYDOWN:
 
-            if event.key == pygame.K_q:
+            if combat_action:
+                current_message = "Бой начинается"
+
+            elif event.key == pygame.K_q:
                 scanning = True
                 current_message = message_scan_direction
 
             elif scanning:
 
                 if event.key == pygame.K_w:
-                    current_message = scan_halls_around("w")
+
+                    result = scan_halls_around("w")
+
+                    if result is True:
+                        combat_action = True
+
+                    else:
+                        current_message = result
+
                     scanning = False
 
                 elif event.key == pygame.K_a:
-                    current_message = scan_halls_around("a")
+
+                    result = scan_halls_around("a")
+
+                    if result is True:
+                        combat_action = True
+
+                    else:
+                        current_message = result
+
                     scanning = False
 
                 elif event.key == pygame.K_s:
-                    current_message = scan_halls_around("s")
+
+                    result = scan_halls_around("s")
+
+                    if result is True:
+                        combat_action = True
+
+                    else:
+                        current_message = result
+
                     scanning = False
 
                 elif event.key == pygame.K_d:
-                    current_message = scan_halls_around("d")
+
+                    result = scan_halls_around("d")
+
+                    if result is True:
+                        combat_action = True
+
+                    else:
+                        current_message = result
+
                     scanning = False
 
                 elif event.key == pygame.K_x:
@@ -48,18 +84,22 @@ while running:
                 if event.key == pygame.K_w:
                     current_message = destroy_object("w")
                     destruction = False
+                    combat_action = True
 
                 elif event.key == pygame.K_a:
                     current_message = destroy_object("a")
                     destruction = False
+                    combat_action = True
 
                 elif event.key == pygame.K_s:
                     current_message = destroy_object("s")
                     destruction = False
+                    combat_action = True
 
                 elif event.key == pygame.K_d:
                     current_message = destroy_object("d")
                     destruction = False
+                    combat_action = True
 
                 elif event.key == pygame.K_x:
                     destruction = False
