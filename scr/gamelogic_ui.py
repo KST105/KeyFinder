@@ -1,4 +1,5 @@
 import pygame
+from scr import gamelogic_lower as gl_l
 from scr.gamelogic_lower import *
 from scr.massages_player import *
 
@@ -30,14 +31,14 @@ MASSAGE_Y = map_rect.height + HEIGHT_INDENT_MAP + INDENT_HEIGHT_MASSAGE
 WIDTH_MASSAGE = map_rect.width
 HEIGHT_MASSAGE = (SCREEN_HEIGHT - HEIGHT_MAP - HEIGHT_INDENT_MAP ) / 2
 
-message_rect = pygame.Rect(MASSAGE_X, MASSAGE_Y, WIDTH_MASSAGE, HEIGHT_MASSAGE)
+message_rect = pygame.Rect(MASSAGE_X, MASSAGE_Y, WIDTH_MASSAGE, HEIGHT_MASSAGE+20)
 
 CHARACTER_X = map_rect.right + INDENT_WIDTH_MAP
 CHARACTER_Y = map_rect.top
 WIDTH_CHARACTER = SCREEN_WIDTH - map_rect.width - INDENT_WIDTH_MAP*3
 HEIGHT_CHARACTER = SCREEN_HEIGHT - HEIGHT_INDENT_MAP - INDENT_HEIGHT_MASSAGE
 
-character_rect = pygame.Rect(CHARACTER_X, CHARACTER_Y, WIDTH_CHARACTER , HEIGHT_CHARACTER )
+character_rect = pygame.Rect(CHARACTER_X, CHARACTER_Y, WIDTH_CHARACTER , HEIGHT_CHARACTER + 20)
 
 TITLE_X = INDENT_WIDTH_MAP
 TITLE_Y = 0
@@ -49,9 +50,12 @@ title_rect = pygame.Rect(INDENT_WIDTH_MAP, TITLE_Y, WIDTH_TITLE, HEIGHT_TITLE)
 CHARACTER_CONTROL_Y = character_rect.y + character_rect.height * 2/3
 CHARACTER_INFO_HEIGHT =  character_rect.height * 2/3
 
-font = pygame.font.Font(None, 30)
+font = pygame.font.Font("textures\GothicFont.ttf", 35)
+font_massage = pygame.font.Font("textures\GothicFont.ttf", 20)
 
-def draw_dungeon():
+hero_condition = "up"
+
+def draw_dungeon(condition="up"):
 
     for floor in range(count_floor):
         for hall in range(count_hall):
@@ -59,48 +63,54 @@ def draw_dungeon():
             x = map_rect.x + hall * CELL_SIZE
             y = map_rect.y + floor * CELL_SIZE
 
-            cell = game_map[floor][hall]
+            cell = gl_l.game_map[floor][hall]
 
             if cell == "#":
-                color = (45, 46, 46)
-
-            elif cell == "*":
-                color = (20, 20, 20)
+                screen.blit(wall_destructible, (x, y))
 
             elif cell == "?":
-                color = (75, 75, 75)
+                screen.blit(floor_unexplored, (x, y))
 
-            elif cell == "X":
-                color = (92,73,57)
-
-            elif cell == "O":
-                color = (92,73,57)
+            elif cell == "*":
+                screen.blit(wall_undestructible, (x, y))
 
             elif cell == "B":
-                color = (255, 215, 0)
+                screen.blit(chest, (x, y))
 
             elif cell == "Ш":
-                color = (180, 50, 50)
+                screen.blit(trap, (x, y))
+
+            elif cell == "H":
+                screen.blit(hero_textures[condition], (x, y))
 
             else:
-                color = (128, 143, 161)
+                screen.blit(floor_explored, (x, y))
 
-            pygame.draw.rect(screen, color,(x, y, CELL_SIZE, CELL_SIZE))
-            pygame.draw.rect(screen,(0, 0, 7),(x, y, CELL_SIZE, CELL_SIZE),1)
+            pygame.draw.rect(screen,(0, 0, 7),(x, y, CELL_SIZE, CELL_SIZE),1,10)
 
 def draw_message(current_message):
 
+    if current_message == None:
+        current_message = ""
+
     pygame.draw.rect(screen, (35, 35, 35), message_rect)
 
-    text_message = font.render(current_message, True, (255, 255, 255))
+    lines = current_message.split("\n")
 
-    screen.blit( text_message, (message_rect.x + 10, message_rect.y + 10))
+    y = message_rect.y + 4
+
+    for line in lines:
+        text_surface = font_massage.render(line,True,(255, 255, 255))
+
+        screen.blit(text_surface,(message_rect.x + 10, y))
+
+        y += font_massage.get_linesize()
 
 def draw_character_rect():
 
-    text_character_info = f"HP: {str(inv.hp)}\n\nWARINESS: {str(inv.counter_scan)} out of {str(inv.max_counter_scan)}\n\nDAMAGE:{str(inv.damage)}\n\n"
+    text_character_info = f"hp: {str(inv.hp)}\n\nwariness: {str(inv.counter_scan)} out of {str(inv.max_counter_scan)}\n\ndamage: {str(inv.damage)}\n\n"
 
-    text_character_inventory = f"HEALTH POTION: {str(inv.health_potion)}\n\nPOWER POTION: {str(inv.power_potion)}\n\nKEY: {str(inv.key)}"
+    text_character_inventory = f"health potion: {str(inv.health_potion)}\n\npower potion: {str(inv.power_potion)}\n\nkey: {str(inv.key)}"
 
     pygame.draw.rect(screen,(35, 35, 35), character_rect)
 
@@ -110,18 +120,53 @@ def draw_character_rect():
 
     text_character = font.render(text_character_info, True, (255, 255, 255))
     screen.blit(text_character, (character_rect.x + 30, character_rect.y + 30))
-    pygame.draw.rect(screen, (20, 20, 20),(character_rect.x, character_rect.y, character_rect.width/2, CHARACTER_INFO_HEIGHT), 1)
+    pygame.draw.rect(screen, (20, 20, 20),(character_rect.x, character_rect.y, character_rect.width / 2, CHARACTER_INFO_HEIGHT), 1)
 
     text_character_inv = font.render(text_character_inventory, True, (255, 255, 255))
     screen.blit(text_character_inv, (character_rect.x + (character_rect.width / 2) + 30, character_rect.y + 30))
     pygame.draw.rect(screen, (20, 20, 20),(character_rect.x + (character_rect.width / 2), character_rect.y, character_rect.width / 2 + 1, CHARACTER_INFO_HEIGHT), 1)
 
-
-
 def draw_title_rect():
     pygame.draw.rect(screen,(35, 35, 35), title_rect)
 
-    text_surface = font.render("Заглушка",True,(255, 255, 255))
+    text_surface = font.render("KeyFinder",True,(255, 255, 255))
 
-    screen.blit(text_surface,(title_rect.x + 10, title_rect.y + 10))
+    screen.blit(text_surface,(title_rect.x + WIDTH_TITLE / 2 - text_surface.width / 2 , title_rect.y + HEIGHT_TITLE / 2 - text_surface.height / 2 ))
+
+def draw_menu():
+
+    screen.blit(menu_background, (0, 0))
+
+    text_menu = f"Play \n\nExit"
+
+    title = font.render("KeyFinder", True, (255, 255, 255))
+    start_text = font.render(text_menu, True, (255, 255, 255))
+
+    screen.blit(title,(SCREEN_WIDTH // 2 - title.get_width() // 2, 200))
+
+    screen.blit(start_text,(SCREEN_WIDTH // 2 - start_text.get_width() // 2, 500))
+
+def draw_background():
+
+    screen.blit(game_background, (0, 0))
+
+game_background = pygame.image.load("textures/title_game.png").convert()
+game_background = pygame.transform.scale(game_background,(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+menu_background = pygame.image.load("textures/title_menu.png").convert()
+menu_background = pygame.transform.scale(menu_background,(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+floor_unexplored = pygame.image.load("textures/floor_unexplored.png").convert()
+floor_explored = pygame.image.load("textures/floor_explored.png").convert()
+wall_destructible = pygame.image.load("textures/wall_destructible.png").convert()
+wall_undestructible = pygame.image.load("textures/wall_undestructible.png").convert()
+trap = pygame.image.load("textures/trap.png").convert()
+chest = pygame.image.load("textures/chest.png").convert()
+
+hero_up = pygame.image.load("textures/character_up.png").convert()
+hero_down = pygame.image.load("textures/character_down.png").convert()
+hero_left = pygame.image.load("textures/character_left.png").convert()
+hero_right = pygame.image.load("textures/character_right.png").convert()
+
+hero_textures = {"up": hero_up, "down": hero_down, "left": hero_left, "right": hero_right}
 
