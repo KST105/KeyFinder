@@ -211,6 +211,13 @@ while running:
 
         game_state = "menu"
 
+    if inv.key == 5:
+
+        world_reset()
+        reset_characteristics()
+
+        game_state = "menu"
+
     if game_state == "menu":
         draw_menu()
 
