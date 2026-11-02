@@ -13,7 +13,7 @@ value_guarantee_key = 4
 size_dungeon = 13
 count_floor = size_dungeon
 count_hall = size_dungeon + 2
-current_floor = 12
+current_floor = 11
 current_hall = count_hall  // 2
 trap_damage = 15
 triumphant_number_keys = 5
@@ -235,7 +235,7 @@ def world_reset():
     global current_floor, current_hall
     global game_map, counter_guarantee_chest, counter_guarantee_key
 
-    current_floor = 12
+    current_floor = 11
     current_hall = count_hall // 2
 
     counter_guarantee_chest = 0
