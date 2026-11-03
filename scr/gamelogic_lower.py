@@ -112,6 +112,7 @@ def enemy_attack_generator(attack):
 
     probability_attack = [2, 1]
     result_investigation = random.choices(attack, weights=probability_attack)[0]
+
     return result_investigation
 
 def map_generation():
@@ -223,6 +224,7 @@ def enemy_generator():
     massage = f"{mp.meeting_with_enemy(enemy_type)} {mp.massage_beginnin_battle} \n{mp.massage_choose_tactics}"
 
 def reset_characteristics():
+
     inv.hp = 100
     inv.damage = 20
     inv.health_potion = 1
@@ -232,6 +234,7 @@ def reset_characteristics():
     inv.max_counter_scan = 6
 
 def world_reset():
+
     global current_floor, current_hall
     global game_map, counter_guarantee_chest, counter_guarantee_key
 
