@@ -3,7 +3,6 @@ from scr import inventory as inv
 from scr import massages_player as mp
 from scr import gamelogic_ui as pg
 
-
 def battle_round(enemy, battle_tactic, battle_action):
 
     if battle_tactic == "attack":
@@ -65,24 +64,29 @@ def dungeon_movement(direction_movement):
         if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             inv.hp -= gl_l.trap_damage
+
             return mp.receiving_damage(gl_l.trap_damage, inv.hp)
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "O":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_empty_hall
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "B":
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_chest_found
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","*"):
 
             gl_l.current_floor -= 1
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_dead_end
 
         gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
         return mp.massage_repeat_visit
 
     elif direction_movement == "w":
@@ -100,21 +104,25 @@ def dungeon_movement(direction_movement):
         if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             inv.hp -= gl_l.trap_damage
+
             return mp.receiving_damage(gl_l.trap_damage, inv.hp)
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "O":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_empty_hall
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "B":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
+
             return mp.massage_chest_found
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall]in ("#","*"):
 
             gl_l.current_floor += 1
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_dead_end
 
         gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
@@ -135,24 +143,29 @@ def dungeon_movement(direction_movement):
         if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             inv.hp -= gl_l.trap_damage
+
             return mp.receiving_damage(gl_l.trap_damage, inv.hp)
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "O":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_empty_hall
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "B":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
+
             return mp.massage_chest_found
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","*"):
 
             gl_l.current_hall += 1
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_dead_end
 
         gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
         return mp.massage_repeat_visit
 
     elif direction_movement == "d":
@@ -170,23 +183,28 @@ def dungeon_movement(direction_movement):
         if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             inv.hp -= gl_l.trap_damage
+
             return mp.receiving_damage(gl_l.trap_damage, inv.hp)
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "O":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_empty_hall
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "B":
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
             gl_l.reward_from_chest(gl_l.counter_guarantee_key)
+
             return mp.massage_chest_found
 
         elif gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","*"):
             gl_l.current_hall -= 1
             gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
             return mp.massage_dead_end
 
         gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = "H"
+
         return mp.massage_repeat_visit
 
 def scan_halls_around(scan_direction):
@@ -198,6 +216,7 @@ def scan_halls_around(scan_direction):
 
             if inv.counter_scan >= inv.max_counter_scan:
                 mp.print_massage(mp.massage_beginnin_battle)
+
                 return True
 
             if scan_direction == "a":
@@ -208,6 +227,7 @@ def scan_halls_around(scan_direction):
 
                 else:
                     gl_l.current_hall += 1
+
                     return mp.massage_repeat_research
 
                 if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
@@ -223,6 +243,7 @@ def scan_halls_around(scan_direction):
                     message = mp.message_detection_chest
 
                 gl_l.current_hall += 1
+
                 return message
 
             elif scan_direction == "d":
@@ -234,6 +255,7 @@ def scan_halls_around(scan_direction):
 
                 else:
                     gl_l.current_hall -= 1
+
                     return mp.massage_repeat_research
 
                 if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
@@ -249,6 +271,7 @@ def scan_halls_around(scan_direction):
                     message = mp.message_detection_chest
 
                 gl_l.current_hall -= 1
+
                 return message
 
             elif scan_direction == "s":
@@ -259,6 +282,7 @@ def scan_halls_around(scan_direction):
 
                 else:
                     gl_l.current_floor -= 1
+
                     return mp.massage_repeat_research
 
                 if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
@@ -274,6 +298,7 @@ def scan_halls_around(scan_direction):
                     message = mp.message_detection_chest
 
                 gl_l.current_floor -= 1
+
                 return message
 
             elif scan_direction == "w":
@@ -284,6 +309,7 @@ def scan_halls_around(scan_direction):
 
                 else:
                     gl_l.current_floor += 1
+
                     return mp.massage_repeat_research
 
                 if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "Ш":
@@ -299,6 +325,7 @@ def scan_halls_around(scan_direction):
                     message = mp.message_detection_chest
 
                 gl_l.current_floor += 1
+
                 return message
 
     return
@@ -313,10 +340,12 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.current_hall += 1
+
                 return
 
             else:
                 gl_l.current_hall += 1
+
                 return mp.message_invalid_destruction_object
 
         elif direction == "d":
@@ -325,10 +354,12 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.current_hall -= 1
+
                 return
 
             else:
                 gl_l.current_hall -= 1
+
                 return mp.message_invalid_destruction_object
 
         elif direction == "s":
@@ -337,10 +368,12 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.current_floor -= 1
+
                 return
 
             else:
                 gl_l.current_floor -= 1
+
                 return mp.message_invalid_destruction_object
 
         elif direction == "w":
@@ -349,8 +382,10 @@ def destroy_object(direction):
             if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] in ("#","Ш"):
                 gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = gl_l.exploring_room_in_destruction()
                 gl_l.current_floor += 1
+
                 return
 
             else:
                 gl_l.current_floor += 1
+
                 return mp.message_invalid_destruction_object
