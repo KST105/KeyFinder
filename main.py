@@ -62,6 +62,7 @@ while running:
                             current_message = message_movement_direction
 
                 elif event.key == pygame.K_q:
+
                     scanning = True
                     current_message = message_scan_direction
 
@@ -131,38 +132,47 @@ while running:
                         scanning = False
 
                 elif event.key == pygame.K_r:
+
                     destruction = True
                     current_message = message_destruction_direction
 
                 elif destruction:
 
                     if event.key == pygame.K_w:
+
                         current_message = destroy_object("w")
                         destruction = False
+
                         if current_message != mp.message_invalid_destruction_object:
                             current_message = enemy_generator()
                             combat_action = True
                             battle_state = "tactic"
 
                     elif event.key == pygame.K_a:
+
                         current_message = destroy_object("a")
                         destruction = False
+
                         if current_message != mp.message_invalid_destruction_object:
                             current_message = enemy_generator()
                             combat_action = True
                             battle_state = "tactic"
 
                     elif event.key == pygame.K_s:
+
                         current_message = destroy_object("s")
                         destruction = False
+
                         if current_message != mp.message_invalid_destruction_object:
                             current_message = enemy_generator()
                             combat_action = True
                             battle_state = "tactic"
 
                     elif event.key == pygame.K_d:
+
                         current_message = destroy_object("d")
                         destruction = False
+
                         if current_message != mp.message_invalid_destruction_object:
                             current_message = enemy_generator()
                             combat_action = True
