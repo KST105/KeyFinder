@@ -220,8 +220,9 @@ def enemy_generator():
     enemy["damage"] = enemy_damage_generator()
     enemy["type"] = enemy_type
     enemy["attack"] = enemy_attack_options(enemy_type)
-
     massage = f"{mp.meeting_with_enemy(enemy_type)} {mp.massage_beginnin_battle} \n{mp.massage_choose_tactics}"
+
+    return massage
 
 def reset_characteristics():
 
