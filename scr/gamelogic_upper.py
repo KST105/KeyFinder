@@ -275,7 +275,7 @@ def scan_halls_around(scan_direction):
                 return message
 
             elif scan_direction == "s":
-                gl_l.current_hall += 1
+                gl_l.current_floor += 1
 
                 if gl_l.game_map[gl_l.current_floor][gl_l.current_hall] == "?":
                     gl_l.game_map[gl_l.current_floor][gl_l.current_hall] = gl_l.exploring_room()
