@@ -50,7 +50,7 @@ title_rect = pygame.Rect(INDENT_WIDTH_MAP, TITLE_Y, WIDTH_TITLE, HEIGHT_TITLE)
 CHARACTER_CONTROL_Y = character_rect.y + character_rect.height * 2/3
 CHARACTER_INFO_HEIGHT =  character_rect.height * 2/3
 
-font = pygame.font.Font("textures\GothicFont.ttf", 35)
+font = pygame.font.Font("textures\GothicFont.ttf", 34)
 font_massage = pygame.font.Font("textures\GothicFont.ttf", 20)
 
 hero_condition = "up"
@@ -108,7 +108,7 @@ def draw_message(current_message):
 
 def draw_character_rect():
 
-    text_character_info = f"hp: {str(inv.hp)}\n\nwariness: {str(inv.counter_scan)} out of {str(inv.max_counter_scan)}\n\ndamage: {str(inv.damage)}\n\n"
+    text_character_info = f"hp: {str(inv.hp)}\n\nwariness: {str(inv.counter_scan)} / {str(inv.max_counter_scan)}\n\ndamage: {str(inv.damage)}\n\n"
 
     text_character_inventory = f"health potion: {str(inv.health_potion)}\n\npower potion: {str(inv.power_potion)}\n\nkey: {str(inv.key)}"
 
